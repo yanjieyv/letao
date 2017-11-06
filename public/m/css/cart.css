@@ -1,0 +1,91 @@
+li>a>img.mui-media-object{
+    width: 42px;
+    height: 42px;
+}
+.mui-media-body>p.name{
+    /* font-size: 12px; */
+}
+.mui-table-view-cell{
+    /* padding-bottom: 3px; */
+}
+li>.list>img{
+    float: left;
+    width: 70px;
+    margin-right: 10px;
+}
+li>a>div>span{
+    font-size: 14px;
+    color: #999;
+}
+li>a>div>.info{
+    line-height: 28px;
+}
+li>a>div>.info>.price{
+    font-size: 16px;
+    color: #f00;
+}
+li>a>div>.info>.oldPrice{
+    color: #ccc;
+}
+li>a>div>.info>.number{
+    float: right;
+    color: #999;
+    margin-right: 10px;
+}
+li>a>div>p>.size{
+    font-size: 14px;
+    /* padding-left: 70px; */
+    color: #999;
+    margin-left: 80px;
+}
+li>a>div>p{
+    line-height: 20px;
+}
+li>a>div{
+    position: relative;
+    /* border-bottom: 1px solid #ccc; */
+}
+li>a>div>input[type='checkbox']{
+    position: absolute;
+    left: 30px;
+    bottom: 3px;
+}
+.edit-item .psize{
+    border: 1px solid #ccc;
+    padding: 3px;
+    line-height: 12px;
+}
+.edit-item .psize.active{
+    background-color: orange;
+}
+.edit-item{
+    margin-top: 20px;
+    line-height: 2em;
+}
+.lt_cart{
+    position: fixed;
+    bottom: 55px;
+    width: 100%;
+    z-index: 10;
+    background-color: #ccc;
+    line-height: 20px;
+    padding: 2px 0;
+}
+.lt_cart>div{
+    float: left;
+    line-height: 24px;
+}
+.lt_cart>div>.tol{
+    
+    color: red;
+}
+.lt_cart>a{
+    float: right;
+    background-color: red;
+    padding: 2px 4px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 14px;
+    /* line-height: 28px; */
+
+}

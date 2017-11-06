@@ -1,165 +1,167 @@
 /*reset css*/
-/*common css*/
-/*大容器*/
-.lt_container{
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: #fff;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+
+ul {
+    list-style: none;
 }
-/*顶部通栏*/
-.lt_topBar{
+
+img {
+    display: block;
     width: 100%;
-    height: 45px;
-    background: #069;
-    position: absolute;
-    left: 0;
-    top: 0;
 }
-.lt_topBar h3{
-    font-size: 18px;
-    line-height: 45px;
-    text-align: center;
-    color: #fff;
+
+a {
+    display: block;
+    /* width: 100%; */
+    color: inherit;
+    text-decoration: none;
+    -webkit-tap-highlight-color: inherit;
+}
+
+* {
+    padding: 0;
     margin: 0;
-    font-weight: normal;
+    box-sizing: border-box;
 }
-.lt_topBar a{
+
+span,
+p {
+    color: inherit;
+}
+
+em {
+    /* text-decoration: none; */
+    font-style: normal;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+}
+
+.view {
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top: 0;
-    width: 45px;
-    height: 45px;
-    text-align: center;
-    line-height: 45px;
-    color: #fff;
+    overflow: hidden;
+    background-color: #fff;
 }
-.lt_topBar .btn_left{
-    left: 0;
-}
-.lt_topBar .btn_left .mui-icon{
-    font-weight: bold;
-}
-.lt_topBar .btn_right{
-    right: 0;
-}
-/*主体内容*/
-.lt_content{
-    width: 100%;
+
+.main {
     height: 100%;
-    padding-top: 45px;
-    padding-bottom: 55px;
-}
-.lt_content .lt_wrapper{
     width: 100%;
+    padding: 45px 0 55px;
+}
+
+.content {
     height: 100%;
+    width: 100%;
     position: relative;
 }
-/*底部页签*/
-.lt_tabBar{
-    width: 100%;
-    height: 55px;
-    background: #069;
-    position: absolute;
+
+
+/* 头部 */
+
+header {
+    position: fixed;
+    top: 0;
     left: 0;
-    bottom: 0;
+    height: 45px;
+    width: 100%;
+    background-color: #069;
+    text-align: center;
+    /* color: #fff; */
+    z-index: 3;
 }
-.lt_tabBar ul{
-    list-style: none;
+
+h1 {
+    font-size: 18px;
+    color: #fff;
+    line-height: 45px;
     margin: 0;
-    padding: 0;
+    display: inline;
 }
-.lt_tabBar ul li{
+
+header a {
+    float: right;
+    transform: translate(-100%, 10px);
+    width: 18px;
+    /* color: #fff; */
+}
+
+header a span {
+    color: #fff;
+}
+
+.back_btn {
+    float: left;
+    transform: translate(100%, 13px);
+    color: #fff;
+}
+
+
+/* 底部 */
+
+footer {
+    height: 55px;
+    width: 100%;
+    background-color: #069;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+}
+
+footer ul {
+    width: 100%;
+    height: 100%;
+}
+
+footer ul li {
+    height: 100%;
     width: 25%;
-    float: left;
     text-align: center;
-    padding-top: 10px;
-}
-.lt_tabBar ul li.now a{
-    color: darkorange;
-}
-.lt_tabBar ul li.now a p{
-    color: darkorange;
-}
-.lt_tabBar ul li a{
     color: #fff;
-}
-.lt_tabBar ul li a p{
-    color: #fff;
-    font-size: 12px;
-    padding-bottom: 0;
-    margin-bottom: 0;
-}
-
-
-/*model css*/
-
-/*商品*/
-.lt_product{
-    padding: 0 10px;
-    background: #fff;
-}
-.lt_product .item{
-    width: 48%;
     float: left;
-    text-align: center;
-    box-shadow: 0 0 5px #ccc;
-    margin-top: 10px;
-    padding: 10px 5px;
-}
-/*even 偶数  odd 奇数*/
-.lt_product .item:nth-child(even){
-    margin-left: 4%;
-}
-.lt_product .item img{
-    width: 100%;
-    display: block;
-    margin-bottom:5px;
-}
-.lt_product .mui-ellipsis-2{
-    height: 41px;
-}
-.lt_product .item p{
-    font-size: 12px;
-}
-.lt_product .item p span:first-child{
-    color: red;
-}
-.lt_product .item p span:last-child{
-    color: grey;
-    text-decoration: line-through;
 }
 
-/*加载中效果*/
-.loading{
-    min-height: 250px;
-    width: 100%;
-    text-align: center;
-    line-height: 250px;
+footer ul li a {
+    height: 100%;
+    padding-top: 5px;
+    /* line-height: 55px; */
 }
-.loading .mui-icon{
-    color: #069;
-    animation: rotateLoading 1s infinite;
+
+footer ul li a span,
+footer ul li a p {
+    color: #fff;
+    /* line-height: 0; */
 }
+
+footer ul li a.active span,
+footer ul li a.active p {
+    color: #ffc052 !important;
+}
+
 @keyframes rotateLoading {
-    from{
+    from {
         transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
     }
-    to{
+    to {
         transform: rotate(360deg);
         -webkit-transform: rotate(360deg);
     }
 }
+
+
 /*webkit兼容*/
+
 @-webkit-keyframes rotateLoading {
-    from{
+    from {
         transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
     }
-    to{
+    to {
         transform: rotate(360deg);
         -webkit-transform: rotate(360deg);
     }

@@ -1,65 +1,110 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0" />
     <title>乐淘分类</title>
     <link type="image/x-icon" rel="shortcut icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="assets/mui/css/mui.css"/>
-    <link rel="stylesheet" href="assets/fa/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/common.css"/>
-    <link rel="stylesheet" href="css/category.css"/>
+    <link rel="stylesheet" href="assets/mui/css/mui.css" />
+    <link rel="stylesheet" href="assets/fa/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/category.css" />
 </head>
+
 <body>
-<div class="lt_container">
-    <header class="lt_topBar">
-        <a class="btn_left" href="javascript:history.back();"><span class="mui-icon mui-icon-arrowleft"></span></a>
-        <h3>乐淘分类</h3>
-        <a class="btn_right" href="search.html"><span class="fa fa-search"></span></a>
-    </header>
-    <div class="lt_content">
-        <div class="lt_wrapper">
-            <!--左侧栏-->
-            <div class="lt_cateLeft">
-                <ul>
-                    <!--动态渲染-->
-                </ul>
-            </div>
-            <!--右内容-->
-            <div class="lt_cateRight">
-                <ul class="mui-clearfix">
-                    <!--动态渲染-->
-                </ul>
+    <div class="view">
+        <header class="mui-clearfix">
+            <h1>分类</h1>
+            <a href="search.html" class="lt-top-rbtn">
+                <span class="fa fa-search"></span>
+            </a>
+        </header>
+        <div class="main">
+            <div class="content">
+                <div class="ca_left">
+                    <div>
+                        <div class="mui-scroll-wrapper">
+                            <div class="mui-scroll">
+                                <div>
+                                    <!-- <a href="javascript:;">运动馆</a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ca_right">
+                    <div>
+                        <div class="mui-scroll-wrapper">
+                            <div class="mui-scroll">
+                                <div class="mui-clearfix">
+                                    <!-- <a href="javascript:;">
+                                        <img src="./images/brand1.png" alt="">
+                                        <p>耐克</p>
+                                    </a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <footer>
+            <ul class="mui-clearfix">
+                <li>
+                    <a href="index.html">
+                        <span class="fa fa-home"></span>
+                        <p>首页</p>
+                    </a>
+                </li>
+                <li>
+                    <a class="active" href="javascript:;">
+                        <span class="fa fa-bars"></span>
+                        <p>分类</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/m/user/cart.html">
+                        <span class="fa fa-shopping-cart"></span>
+                        <p>购物车</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/m/user/index.html">
+                        <span class="fa fa-user"></span>
+                        <p>个人中心</p>
+                    </a>
+                </li>
+            </ul>
+        </footer>
     </div>
-    <footer class="lt_tabBar">
-        <ul>
-            <li><a href="index.html"><span class="fa fa-home"></span><p>首页</p></a></li>
-            <li class="now"><a href="category.html"><span class="fa fa-bars"></span><p>分类</p></a></li>
-            <li><a href="cart.html"><span class="fa fa-shopping-cart"></span><p>购物车</p></a></li>
-            <li><a href="user/index.html"><span class="fa fa-user"></span><p>会员中心</p></a></li>
-        </ul>
-    </footer>
-</div>
-<script type="text/template" id="firstCategory">
-    <% for(var i = 0 ; i < rows.length ; i ++){ %>
-    <li data-id="<%=rows[i].id%>" class="<%=i==0?'now':'' %>"><a href="javascript:;"><%=rows[i].categoryName%></a></li>
-    <% } %>
-</script>
-<script type="text/template" id="secondCategory">
-    <%if(rows.length == 0){%>
-        <p style="padding: 10px">暂时没有分类数据</p>
-    <%}else{%>
-        <% for(var i = 0 ; i < rows.length ; i ++){ %>
-            <li><a href="#"><img src="<%=rows[i].brandLogo%>" onerror="this.src = 'images/none.jpg' " alt=""/><p><%=rows[i].brandName%></p></a></li>
-        <% } %>
-    <%}%>
-</script>
-<script src="assets/mui/js/mui.js"></script>
-<script src="assets/zepto/zepto.min.js"></script>
-<script src="assets/artTemplate/template-native.js"></script>
-<script src="js/common.js"></script>
-<script src="js/category.js"></script>
+    <script type="text/template" id="firstCat">
+        <% for (var i = 0;i < rows.length; i++){%>
+            <a class="<%= i==0?'active':''%> firstCat" href="javascript:;" data-id="<%=rows[i].id%>"><%=rows[i].categoryName%></a>
+        <%}%>
+    </script>
+    <script type="text/template" id="secondCat">
+        <% if(total == 0){%>
+            <p>数据为空</p>
+        <% }else{%>
+            <% for (var i = 0;i < rows.length; i++){%>
+                <a date-catId="<%= rows[i].categoryId%>" href="javascript:;">
+                    <img src="<%= rows[i].brandLogo%>" alt="">
+                    <p><%= rows[i].brandName%></p>
+                </a>
+            <%}%>
+        <%}%>
+    </script>
+    <script src="assets/mui/js/mui.js"></script>
+    <script src="assets/zepto/zepto.min.js"></script>
+    <script src="assets/artTemplate/template-native.js"></script>
+    <script src="./js/common.js"></script>
+    <script src="./js/category.js"></script>
+    <!-- <script>
+        mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+        });
+    </script> -->
 </body>
+
 </html>

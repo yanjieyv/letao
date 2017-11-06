@@ -1,122 +1,216 @@
-$(function(){
-    /*1.展示购物车商品*/
-    /*1.1 完成下拉刷新效果*/
-    mui.init({
-        /*拉动刷新组件*/
-        pullRefresh:{
-            /*目标容器*/
-            container:".mui-scroll-wrapper",
-            /*下拉*/
-            down:{
-                /*默认下拉一次*/
-                auto:true,
-                /*下拉操作后的回调函数*/
-                callback:function(){
-                    /*指向当前下拉组件*/
-                    var that = this;
-                    /*1.2 完成数据获取*/
-                    getCartData(function(data){
-                        /*1.3 展示商品*/
-                        $('.mui-table-view').html(template('cart',data));
-                        /*1.4 清除加载效果*/
-                        that.endPulldownToRefresh();
+$(function () {
+    // 不使用一下接口，会连isBelete的数据也接收到
+    // $.ajax({
+    //     type: "get",
+    //     url: "/cart/queryCartPaging",
+    //     data: {
+    //         page: 1,
+    //         pageSize: 10
+    //     },
+    //     success: function (res) {
+    //         console.log(res);
+    //         if (res.error == 400) {
+    //             mui.toast(res.message);
+    //             location.href = "/m/login.html?returnURL=" + location.href;
+    //         } else {
+    //             var html = template("cart", res);
+    //             $(".mui-scroll ul").html(html);
+    //             mui('.mui-scroll-wrapper').scroll({
+    //                 deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    //             });
+    //         }
+
+    //         // list = document.querySelectorAll(".list");
+    //         // console.log(list);
+    //     }
+    // })
+    function getCartData() {
+        $.ajax({
+            type: "get",
+            url: "/cart/queryCart",
+            data: {},
+            success: function (res) {
+                // console.log({data:res});
+                if (res.error == 400) {
+                    mui.toast(res.message);
+                    location.href = "/m/login.html?returnURL=" + location.href;
+                } else {
+                    var html = template("cart", { data: res });
+                    $(".mui-scroll ul").html(html);
+                    mui('.mui-scroll-wrapper').scroll({
+                        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
                     });
                 }
-            }
-        }
-    });
-    /*2.删除操作*/
-    $('.mui-table-view').on('tap','.mui-btn-red',function(){
-        var id = $(this).attr('data-id');
-        /*2.1 弹出提示框*/
-        mui.confirm('您是否确定删除？', '温馨提示', ['确定','取消'], function(e) {
-            if (e.index == 0) {
-                /*2.2 确定之后 发送请求*/
-                lt.ajaxFilter({
-                    type:'get',
-                    url:'/cart/deleteCart',
-                    data:{id:id},
-                    dataType:'json',
-                    success:function(data){
-                        if(data.success){
-                            mui.toast('操作成功');
-                            /*2.3 重新渲染*/
-                            getCartData(function(data){
-                                $('.mui-table-view').html(template('cart',data));
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    });
-    /*3.编辑操作*/
-    $('.mui-table-view').on('tap','.mui-btn-blue',function(){
-        /*3.1 弹出修改框*/
-        /*replace(/\n/g,'') 替换标签之间换行*/
-        /*3.2 动态渲染*/
-        /*3.3 获取数据 {id: "1", size: "50", productsize: "42-50", num: "50", productnum: "5"}*/
-        var data = this.dataset;
-        mui.confirm(template('edit',data).replace(/\n/g,''), '编辑商品', ['确定','取消'], function(e) {
-            if (e.index == 0) {
-                /*2.2 确定之后 发送请求*/
-                lt.ajaxFilter({
-                    type:'post',
-                    url:'/cart/updateCart',
-                    data:{
-                        id:data.id,
-                        size:$('.lt_cart_edit span.now').html(),
-                        num:$('.mui-numbox input').val()
-                    },
-                    dataType:'json',
-                    success:function(data){
-                        if(data.success){
-                            mui.toast('操作成功');
-                            /*2.3 重新渲染*/
-                            getCartData(function(data){
-                                $('.mui-table-view').html(template('cart',data));
-                            });
-                        }
-                    }
-                });
-            }
-        });
-        mui('.mui-numbox').numbox();
-        $('.lt_cart_edit').on('tap','span',function(){
-            $('.lt_cart_edit span').removeClass('now');
-            $(this).addClass('now');
-        });
-    });
-    /*4.总额计算*/
-    $('.mui-table-view').on('change','input',function(){
-        /*设置 计算  价格*/
-        setAmount();
-    });
-});
-var getCartData = function(callback){
-    /*不做分页查询*/
-    lt.ajaxFilter({
-        type:'get',
-        url:'/cart/queryCartPaging',
-        data:{
-            page:1,
-            pageSize:100
-        },
-        dataType:'json',
-        success:function(data){
-            setTimeout(function(){
-                callback && callback(data);
-            },500);
 
-        }
-    });
-}
-var setAmount = function(){
-    var amount = 0;
-    $('input:checked').each(function(){
-        var num = $(this).attr('data-num');
-        var price = $(this).attr('data-price');
-        amount += num*price;
+                // list = document.querySelectorAll(".list");
+                // console.log(list);
+            }
+        })
+    }
+    getCartData();
+    $(document).on("tap", ".psize", function () {
+        $(this).siblings().removeClass("active");
+        $(this).addClass("active");
     })
-    $('.lt_cart span').html(Math.ceil(amount*100)/100);
-}
+    $(document).on("tap", ".mui-btn-blue", function () {
+        var _this = $(this);
+        var id = $(this).data("id");
+        var indes = $(this).data("indes");
+        var items = {
+            productSize: _this.data("productsize"),
+            productNum: _this.data("productnum"),
+            num: _this.data("num"),
+            size: _this.data("size")
+        }
+        var html = template("edit", items);
+        // console.log(items);
+        html = html.replace(/\n/g, "");
+        mui.confirm(html, '编辑商品', ["确定", "取消"], function (e) {
+            if (e.index == 0) {
+                var edit_size = $(".psize.active").text();
+                var edit_num = $(".mui-numbox>.mui-input-numbox").val();
+                // console.log(edit_num,edit_size);
+                // console.log(_this.parent().siblings("a"));
+                // li内容盒子
+                var li = _this.parent().parent()[0];
+                // console.log(li);
+                $.ajax({
+                    type: "post",
+                    url: "/cart/updateCart",
+                    data: {
+                        id: id,
+                        size: edit_size,
+                        num: edit_num
+                    },
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.success) {
+                            // js实时修改数值
+                            $(li).find(".size").find("em").text(edit_size);
+                            $(li).find(".number").find("em").text(edit_num);
+                            _this[0].dataset.size = edit_size;
+                            _this[0].dataset.num = edit_num;
+                            mui.swipeoutClose(li);
+                            getTol();
+                            mui.toast("修改成功");
+                        } else {
+                            mui.toast(res.message);
+                        }
+                    }
+                });
+            }
+        })
+        mui(".mui-numbox").numbox();
+        // $.ajax({
+        //     type: "get",
+        //     url: "/cart/queryCartPaging",
+        //     data: {
+        //         page: 1,
+        //         pageSize: 10
+        //     },
+        //     success: function (res) {
+        //         // console.log(res);
+        //         items = res.data[indes];
+        //         var html = template("edit", items);
+        //         // console.log(items);
+        //         html = html.replace(/\n/g, "");
+        //         mui.confirm(html, '编辑商品', ["确定", "取消"], function (e) {
+        //             if (e.index == 0) {
+        //                 var edit_size = $(".psize.active").text();
+        //                 var edit_num = $(".mui-numbox>.mui-input-numbox").val();
+        //                 // console.log(edit_num,edit_size);
+        //                 // console.log(_this.parent().siblings("a"));
+        //                 // li内容盒子
+        //                 var li = _this.parent().parent()[0];
+        //                 // console.log(li);
+        //                 $.ajax({
+        //                     type: "post",
+        //                     url: "/cart/updateCart",
+        //                     data: {
+        //                         id: id,
+        //                         size: edit_size,
+        //                         num: edit_num
+        //                     },
+        //                     success: function (res) {
+        //                         // console.log(res);
+        //                         if (res.success) {
+        //                             // js实时修改数值
+        //                             $(li).find(".size").find("em").text(edit_size);
+        //                             $(li).find(".number").find("em").text(edit_num);
+        //                             _this[0].dataset.size = edit_size;
+        //                             _this[0].dataset.num = edit_num;
+        //                             mui.swipeoutClose(li);
+        //                             getTol();
+        //                             mui.toast("修改成功");
+        //                         } else {
+        //                             mui.toast(res.message);
+        //                         }
+        //                     }
+        //                 });
+        //             }
+        //         })
+        //         mui(".mui-numbox").numbox();
+        //     }
+        // })
+
+        // var num = $(this).data("num");
+        // var productSize = $(this).data("productsize");
+        // var size = $(this).data("size");
+        // var productNum = $(this).data("productnum");
+        // var items = {
+        //     id:id,
+        //     num:num,
+        //     productsize:productsize,
+        //     size:size,
+        //     productNum:productNum
+        // }
+        // console.log(items);
+
+    })
+    $(document).on("tap", ".mui-btn-red", function () {
+        // var id = $(this).data("id");
+        // console.log(id);
+        // /cart/deleteCart
+        var ids = [];
+        // console.log($(".checks:checked"));
+        var chks = $(".checks:checked");
+        for (var i = 0; i < chks.length; i++) {
+            ids.push(chks[i].dataset.id);
+        }
+        // console.log(ids);
+        if (ids.length == 0) {
+            ids.push($(this).data("id"));
+        }
+        // console.log(ids);
+        mui.confirm("是否删除商品", '删除', ["确定", "取消"], function (e) {
+            if (e.index == 0) {
+                $.ajax({
+                    type: "get",
+                    url: "/cart/deleteCart",
+                    data: { id: ids },
+                    success: function (res) {
+                        // console.log(res);
+                        if(res.success){
+                            getCartData();
+                        }else{
+                            mui.toast(res.message);
+                        }
+                    }
+                })
+            }
+        })
+    })
+    $(document).on("change", ".checks", function () {
+        getTol();
+    })
+    function getTol() {
+        var checks = $(".checks:checked");
+        var tol = 0;
+        for (var i = 0; i < checks.length; i++) {
+            tol = tol + (checks[i].dataset.price * $(checks[i]).parent().find(".number>em").text());
+        }
+        tol = Math.ceil(tol * 100) / 100;
+        tol = tol * 1 == 0 ? '00.00' : tol;
+        $(".tol").text(tol);
+    }
+})
